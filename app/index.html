@@ -9,8 +9,14 @@
 </head>
 
 <body>
+  <h1>Croatia's Waterfalls</h1>
 <main>
-  <div class="search"><p>hgjhgjhgj</p></div>
+  <div class="search">
+    <input type="text" id="country">
+    <ul data-bind="foreach: locations">
+      <li data-bind="text: $data[2]"></li>
+    </ul>
+  </div>
   <div id="map"></div>
 </main>
 
@@ -19,7 +25,7 @@
 <script src="/bower_components/knockout/dist/knockout.js"></script>
 <script src="scripts/main.js"></script>
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBABbC9GX9l8VfNzcbTZwsRplwaXeKiAis&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBABbC9GX9l8VfNzcbTZwsRplwaXeKiAis&callback=initMap">
 </script>
 </body>
 </html>

@@ -3,12 +3,36 @@ html {
 
 body {
   font: 1.6rem "Roboto", sans-serif;
-  height: 100%; }
+  height: 100%;
+  margin: 0; }
+
+h1 {
+  text-align: center;
+  background-color: #778BA3;
+  margin: 0;
+  padding: 20px 0 20px 0;
+  color: #fff; }
 
 main {
   display: flex; }
   main .search {
-    flex-basis: 20%; }
+    flex-basis: 20%;
+    padding: 15px;
+    background-color: #fff; }
   main #map {
     flex-basis: 80%;
     height: 100vh; }
+
+a {
+  text-decoration: none; }
+
+input {
+  width: 100%;
+  height: 40px;
+  background: url(../images/search-icon.svg) no-repeat scroll 7px 7px; }
+
+ul {
+  list-style-type: none; }
+  ul li {
+    padding: 10px 0 10px 0;
+    cursor: pointer; }
