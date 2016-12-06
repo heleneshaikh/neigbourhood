@@ -1,0 +1,14 @@
+html {
+  font-size: 62.5%; }
+
+body {
+  font: 1.6rem "Roboto", sans-serif;
+  height: 100%; }
+
+main {
+  display: flex; }
+  main .search {
+    flex-basis: 20%; }
+  main #map {
+    flex-basis: 80%;
+    height: 100vh; }
