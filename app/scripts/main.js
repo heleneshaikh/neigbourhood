@@ -26,9 +26,9 @@ var ViewModel = function () {
     });
 
     //ADD INFOWINDOW CONTENT ON CLICK
-   content = '<div><p>' + locations[i][2] + '</p><img src=" '+ locations[i][3]+'"></div>';
-    google.maps.event.addListener(marker, 'click', (function(marker, i, content) {
-      return function() {
+    content = '<div><p>' + locations[i][2] + '</p><img src=" ' + locations[i][3] + '"></div>';
+    google.maps.event.addListener(marker, 'click', (function (marker, i, content) {
+      return function () {
         infowindow.setContent(content);
         infowindow.open(map, marker);
       };
@@ -41,12 +41,39 @@ var ViewModel = function () {
   };
   var input = document.getElementById("country");
   var autoComplete = new google.maps.places.Autocomplete(input, options);
+
+  //ZOOM
+
+  document.getElementById("zoom").addEventListener("click", function () {
+    zoomToArea();
+  });
+
+  function zoomToArea() {
+    var geocoder = new google.maps.Geocoder();
+    var address = document.getElementById("country").value;
+    if (address == '') {
+      console.log("you must enter an address");
+    } else {
+      geocoder.geocode({
+          address: address,
+          componentRestrictions: {country: "croatia"}
+        },
+        function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            map.setZoom(10);
+          } else {
+            console.log("location not found");
+          }
+        })
+    }
+  }
 };
 
 //INITIALIZE THE MAP
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    center: {lat: 44.4464391, lng: 14.936299},
+    center: {lat: 44.288834, lng: 17.0725821},
     zoom: 8,
     styles: [
       {
@@ -57,7 +84,5 @@ function initMap() {
       }
     ]
   });
-
   ko.applyBindings(new ViewModel());
 }
-//<div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
