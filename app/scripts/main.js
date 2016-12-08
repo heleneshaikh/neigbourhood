@@ -4,10 +4,10 @@
 
 //MODEL of locations[latitude, longitude, name, image file, image icon]
 var locations = [
-  [44.8654, 15.5820, "Plitvice National Park", "images/plitvice.jpg", "images/waterfall-icon.svg"], //flat
-  [43.8666, 15.9725, "Krka National Park", "images/krka.jpg", "images/waterfall-icon.svg"],
-  [43.3252778, 17.046978, "Biokovo", "images/biokovo.jpg", "images/mountain.svg"],
-  [43.2595, 17.1025, "vrata biokova", "images/cheeseburger.jpg", "images/hamburger.svg"],
+  [44.8654, 15.5820, "Plitvice National Park", "images/plitvice.jpg", "images/waterfall-icon.svg", "images/search-icon.svg"], //flat
+  [43.8666, 15.9725, "Krka National Park", "images/krka.jpg", "images/waterfall-icon.svg", "images/search-icon.svg"],
+  [43.3252778, 17.046978, "Biokovo", "images/biokovo.jpg", "images/mountain.svg", "images/search-icon.svg"],
+  [43.2595, 17.1025, "vrata biokova", "images/cheeseburger.jpg", "images/hamburger.svg", "images/search-icon.svg"],
   [43.1561, 17.6080, "Kravica", "images/kravice.jpg", "images/waterfall-icon.svg"],
   [43.2622, 16.6541, "Island Bol", "", "images/nature.svg"],
   [45.0809, 14.5926, "Krk Island", "", "images/nature.svg"],
@@ -40,14 +40,23 @@ var ViewModel = function () {
         infowindow.open(map, marker);
       };
     })(marker, i, content));
+
+    //MAKE MARKER BOUNCE
+    marker.addListener("mouseover", function () {
+      toggleBounce(this);
+    });
   }
 
-  document.getElementById("marker-btn").addEventListener("click", function () {
-    var value = document.getElementById("marker-input-filter").value;
-    console.log(value);
-  });
+  function toggleBounce(currentIcon) {
+    currentIcon.setAnimation(null);
+    if (currentIcon.getAnimation() != null) {
+      currentIcon.setAnimation(null);
+    } else {
+      currentIcon.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
 
-  //RESTRICT THE AUTOCOMPLETE
+  //RESTRICT THE AUTOCOMPLETE TO CROATIA
   var options = {
     componentRestrictions: {country: 'hr'}
   };
@@ -77,6 +86,7 @@ var ViewModel = function () {
     }
   }
 
+  //FILTER
   var self = this;
   self.filterItems = ko.observable(); //input value
   var titles = [];
@@ -89,13 +99,12 @@ var ViewModel = function () {
     if (!filterItems) {
       return self.allLocations();
     } else {
-     return self.allLocations().filter(function (i) {
+      return self.allLocations().filter(function (i) {
         return i.indexOf(filterItems) >= 0;
       });
     }
   });
 };
-
 
 //INITIALIZE THE MAP
 function initMap() {
