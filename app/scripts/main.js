@@ -17,27 +17,6 @@ var locations = [
 var map;
 
 var ViewModel = function () {
-  var self = this;
-  self.filterItems = ko.observable("");
-
-  var titles = [];
-  for (var j = 0; j < locations.length; j++) {
-    titles.push(locations[j][2]);
-  }
-
-  self.items = ko.observableArray(titles);
-  self.filteredItems = ko.computed(function () {
-    var filterItems = self.filterItems();
-    if (!filterItems) {
-      return self.items();
-    } else {
-      return self.items().filter(function (i) {
-        return i.indexOf(filterItems) > -1;
-      });
-    }
-  });
-
-
   var marker, i, content;
   var infowindow = new google.maps.InfoWindow();
 
@@ -68,7 +47,6 @@ var ViewModel = function () {
     console.log(value);
   });
 
-
   //RESTRICT THE AUTOCOMPLETE
   var options = {
     componentRestrictions: {country: 'hr'}
@@ -98,6 +76,24 @@ var ViewModel = function () {
       });
     }
   }
+
+  var self = this;
+  self.filterItems = ko.observable(); //input value
+  var titles = [];
+  for (var j = 0; j < locations.length; j++) {
+    titles.push(locations[j][2]);
+  }
+  self.allLocations = ko.observableArray(titles); //complete array
+  self.filteredItems = ko.computed(function () {
+    var filterItems = self.filterItems();
+    if (!filterItems) {
+      return self.allLocations();
+    } else {
+     return self.allLocations().filter(function (i) {
+        return i.indexOf(filterItems) >= 0;
+      });
+    }
+  });
 };
 
 
@@ -109,3 +105,4 @@ function initMap() {
   });
   ko.applyBindings(new ViewModel());
 }
+
