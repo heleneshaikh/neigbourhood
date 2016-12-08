@@ -9,13 +9,19 @@
 </head>
 
 <body>
-  <h1>Croatia's Waterfalls</h1>
+  <h1>Croatia's Nature &amp; Waterfalls</h1>
 <main>
   <div class="search">
-    <input type="text" id="country">
-    <input type="button" id="zoom" value="search">
-    <ul data-bind="foreach: locations">
-      <li data-bind="text: $data[2]"></li>
+    <p>Search through Croatia</p>
+    <input type="text" id="input" placeholder="">
+    <input type="submit" id="zoom" value="zoom into area">
+
+    <p>Search through markers</p>
+    <input type="text" id="marker-input-filter" data-bind="textInput: filterItems"> <!-- input value => filter-->
+    <input type="submit" id="marker-btn" value="filter markers">
+
+    <ul data-bind="foreach: filteredItems">
+      <li data-bind="text: $data"></li>
     </ul>
   </div>
   <div id="map"></div>
