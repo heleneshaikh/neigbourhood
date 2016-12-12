@@ -33,8 +33,8 @@ main {
 #menu-toggle {
   display: none;
 }
-//800
-@media screen and (max-width: 800px) {
+
+@media screen and (max-width: 900px) {
   #menu-toggle {
     display: block;
     position: absolute;
@@ -44,7 +44,6 @@ main {
 
   main {
     display: block;
-    overflow: hidden;
     position: relative;
 
     .search {

@@ -33,7 +33,7 @@ var ViewModel = function () {
     });
 
     //DATA RETRIEVED FROM THE WIKIPEDIA API. WHEN THE USER CLICKS ON A MARKER, IT DISPLAYS THAT INFORMATION IN ITS INFOWINDOW
-    google.maps.event.addListener(marker, 'click', (function (marker) {
+    google.maps.event.addListener(marker, "click", (function (marker) {
       var content, image, url;
       return function () {
         $.ajax({
@@ -64,6 +64,9 @@ var ViewModel = function () {
         currentIcon.setAnimation(null);
       } else {
         currentIcon.setAnimation(google.maps.Animation.BOUNCE);
+        setTimeout(function() {
+          marker.setAnimation(null)
+        }, 2000);
       }
     }
 
@@ -92,15 +95,14 @@ var ViewModel = function () {
     var geocoder = new google.maps.Geocoder();
     var address = document.getElementById("input").value;
     if (address == '') {
-      console.log("you must enter an address");
+      alert("you must enter an address");
     } else {
       geocoder.geocode({address: address}, function (results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           map.setCenter(results[0].geometry.location);
-          // console.log("geo" + results[0].geometry.location);
           map.setZoom(12);
         } else {
-          console.log("location not found");
+          alert("location not found");
         }
       });
     }
@@ -132,18 +134,20 @@ var ViewModel = function () {
     }
   });
 
+  //WHEN A LIST ITEM IS CLICKED, SHOW ITS MARKER AND OPEN ITS INFOWINDOW
   self.showMarker = function(data){
     console.log(data);
-    data.marker.setAnimation(null);
     if (data.marker.getAnimation() != null) {
       data.marker.setAnimation(null);
     } else {
       data.marker.setAnimation(google.maps.Animation.BOUNCE);
-      // infowindow.open(map, data.marker);
+      setTimeout(function () {
+        data.marker.setAnimation(null);
+      }, 700);
+      infowindow.open(map, data.marker);
     }
   };
 };
-
 
 
 //INITIALIZE THE MAP
