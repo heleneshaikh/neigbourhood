@@ -58,21 +58,21 @@ var ViewModel = function () {
       };
     })(marker));
 
+    function toggleBounce(currentIcon) {
+      currentIcon.setAnimation(null);
+      if (currentIcon.getAnimation() != null) {
+        currentIcon.setAnimation(null);
+      } else {
+        currentIcon.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
     //MAKE THE MARKER BOUNCE
     marker.addListener("mouseover", function () {
       toggleBounce(this);
     });
 
     locations[i].marker = marker;
-  }
-
-  function toggleBounce(currentIcon) {
-    currentIcon.setAnimation(null);
-    if (currentIcon.getAnimation() != null) {
-      currentIcon.setAnimation(null);
-    } else {
-      currentIcon.setAnimation(google.maps.Animation.BOUNCE);
-    }
   }
 
   //RESTRICT THE AUTOCOMPLETE SERACH TO LOCATIONS IN CROATIA
@@ -118,8 +118,12 @@ var ViewModel = function () {
   self.filteredItems = ko.computed(function () { //INPUT
     var inputFilter = self.inputFilter();
     if (!inputFilter) {
-      return self.allLocations();
-    } else {
+      var locations = self.allLocations();
+      for (var i = 0; i < locations.length; i++) {
+        locations[i].marker.setVisible(true);
+      }
+      return locations;
+    } else { //FILTER THE LOCATION ITEMS AND SHOW THEIR MARKER
       return ko.utils.arrayFilter(self.allLocations(), function (location) {
         var match = location.title.toLowerCase().indexOf(inputFilter.toLowerCase()) >= 0;
         location.marker.setVisible(match);
@@ -127,7 +131,19 @@ var ViewModel = function () {
       });
     }
   });
+
+  self.showMarker = function(data){
+    console.log(data);
+    data.marker.setAnimation(null);
+    if (data.marker.getAnimation() != null) {
+      data.marker.setAnimation(null);
+    } else {
+      data.marker.setAnimation(google.maps.Animation.BOUNCE);
+      // infowindow.open(map, data.marker);
+    }
+  };
 };
+
 
 
 //INITIALIZE THE MAP
@@ -140,3 +156,8 @@ function initMap() {
   ko.applyBindings(new ViewModel());
 }
 
+//TOGGLE MENU
+var menu = document.getElementById('menu');
+document.getElementById('menu-toggle').addEventListener('click', function (e) {
+  menu.classList.toggle('-is-active');
+});

@@ -10,8 +10,11 @@
 
 <body>
   <h1>Croatia's Nature &amp; Waterfalls</h1>
-<main>
-  <div class="search">
+  <a href="#menu" id="menu-toggle">
+    <img src="images/menu.svg">
+  </a>
+  <main>
+  <div id="menu" class="search">
     <p>Search through Croatia</p>
     <input type="text" id="input" placeholder="">
     <input type="submit" id="zoom" value="zoom into area">
@@ -20,7 +23,7 @@
     <input type="text" id="marker-input-filter" data-bind="textInput: inputFilter">
 
     <ul data-bind="foreach: filteredItems">
-      <li data-bind="text: $data.title"></li>
+      <li data-bind="text: $data.title, click: showMarker"></li>
     </ul>
   </div>
   <div id="map"></div>
