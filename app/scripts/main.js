@@ -46,7 +46,7 @@ var ViewModel = function () {
           } else {
             image = result.thumbnail.source;
             url = result.fullurl;
-            content = '<div><img src="' + image + '" alt=""><h2>' + marker.title + '</h2><p><a href="' + url + '" target="_blank">Read More</a></p></div>';
+            content = '<div><img src="' + image + '" width="250"><h2>' + marker.title + '</h2><p><a href="' + url + '" target="_blank">Read More</a></p></div>';
           }
           infowindow.setContent(content);
           infowindow.open(map, marker);
@@ -136,16 +136,7 @@ var ViewModel = function () {
 
   //WHEN A LIST ITEM IS CLICKED, SHOW ITS MARKER AND OPEN ITS INFOWINDOW
   self.showMarker = function(data){
-    console.log(data);
-    if (data.marker.getAnimation() != null) {
-      data.marker.setAnimation(null);
-    } else {
-      data.marker.setAnimation(google.maps.Animation.BOUNCE);
-      setTimeout(function () {
-        data.marker.setAnimation(null);
-      }, 700);
-      infowindow.open(map, data.marker);
-    }
+    new google.maps.event.trigger(data.marker, 'click');
   };
 };
 
