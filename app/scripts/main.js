@@ -39,7 +39,7 @@ var ViewModel = function () {
       var content, image, url;
       return function () {
         $.ajax({
-          url: "https://ention=query&indexpageids=1&format=json&prop=pageimages|info&pithumbsize=250&inprop=url&utf8=1&titles=" + marker.title,
+          url: "https://en.wikipedia.org/w/api.php?action=query&indexpageids=1&format=json&prop=pageimages|info&pithumbsize=250&inprop=url&utf8=1&titles=" + marker.title,
           dataType: "jsonp"
         }).done(function (response) {
           var result = response.query.pages[response.query.pageids[0]];
