@@ -15,10 +15,6 @@
   </a>
   <main>
   <div id="menu" class="search">
-    <p>Search through Croatia</p>
-    <input type="text" id="input" placeholder="">
-    <input type="submit" id="zoom" value="zoom into area">
-
     <p>Search through markers</p>
     <input type="text" id="marker-input-filter" data-bind="textInput: inputFilter">
 
@@ -33,8 +29,7 @@
 <script src="/bower_components/jquery/dist/jquery.js"></script>
 <script src="/bower_components/knockout/dist/knockout.js"></script>
 <script src="scripts/main.js"></script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBABbC9GX9l8VfNzcbTZwsRplwaXeKiAis&v=3&callback=initMap">
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBABbC9GX9l8VfNzcbTZwsRplwaXeKiAis&v=3&callback=initMap" async defer onerror="mapError()">
 </script>
 </body>
 </html>

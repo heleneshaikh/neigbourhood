@@ -30,14 +30,16 @@ var ViewModel = function () {
       },
       animation: google.maps.Animation.DROP,
       title: locations[i].title
+      //THE CLICK ANIMATION IS IMPLEMENTED BELOW
     });
+
 
     //DATA RETRIEVED FROM THE WIKIPEDIA API. WHEN THE USER CLICKS ON A MARKER, IT DISPLAYS THAT INFORMATION IN ITS INFOWINDOW
     google.maps.event.addListener(marker, "click", (function (marker) {
       var content, image, url;
       return function () {
         $.ajax({
-          url: "https://en.wikipedia.org/w/api.php?action=query&indexpageids=1&format=json&prop=pageimages|info&pithumbsize=250&inprop=url&utf8=1&titles=" + marker.title,
+          url: "https://ention=query&indexpageids=1&format=json&prop=pageimages|info&pithumbsize=250&inprop=url&utf8=1&titles=" + marker.title,
           dataType: "jsonp"
         }).done(function (response) {
           var result = response.query.pages[response.query.pageids[0]];
@@ -50,7 +52,7 @@ var ViewModel = function () {
           }
           infowindow.setContent(content);
           infowindow.open(map, marker);
-        }).error(function () {
+        }).fail(function () {
           content = '<div><h2>' + marker.title + '</h2><p>data could not be loaded</p></div>';
           infowindow.setContent(content);
           infowindow.open(map, marker);
@@ -59,19 +61,18 @@ var ViewModel = function () {
     })(marker));
 
     function toggleBounce(currentIcon) {
-      currentIcon.setAnimation(null);
       if (currentIcon.getAnimation() != null) {
         currentIcon.setAnimation(null);
       } else {
         currentIcon.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function() {
-          marker.setAnimation(null)
-        }, 2000);
+        setTimeout(function () {
+          currentIcon.setAnimation(null);
+        }, 1400);
       }
     }
 
     //MAKE THE MARKER BOUNCE
-    marker.addListener("mouseover", function () {
+    marker.addListener("click", function () {
       toggleBounce(this);
     });
 
@@ -82,31 +83,6 @@ var ViewModel = function () {
   var options = {
     componentRestrictions: {country: 'hr'}
   };
-
-  var input = document.getElementById("input");
-  new google.maps.places.Autocomplete(input, options);
-
-  //ZOOM INTO SELECTED AREA
-  document.getElementById("zoom").addEventListener("click", function () {
-    zoomToArea();
-  });
-
-  function zoomToArea() {
-    var geocoder = new google.maps.Geocoder();
-    var address = document.getElementById("input").value;
-    if (address == '') {
-      alert("you must enter an address");
-    } else {
-      geocoder.geocode({address: address}, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          map.setCenter(results[0].geometry.location);
-          map.setZoom(12);
-        } else {
-          alert("location not found");
-        }
-      });
-    }
-  }
 
   //FILTER THE LOCATIONS BASED ON INPUT
   var self = this;
@@ -141,6 +117,8 @@ var ViewModel = function () {
 };
 
 
+
+
 //INITIALIZE THE MAP
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
@@ -149,6 +127,10 @@ function initMap() {
     icon: "images/mountain.svg"
   });
   ko.applyBindings(new ViewModel());
+}
+
+function mapError() {
+  alert("Map could not be loaded");
 }
 
 //TOGGLE MENU
